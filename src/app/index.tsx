@@ -43,7 +43,7 @@ export default function Home() {
         data={CATEGORIES}
         keyExtractor={(item) => item}
         horizontal
-        className="max-h-10 mt-5"
+        className="max-h-10 mt-5 mb-2"
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{ gap: 12, paddingHorizontal: 20 }}
         renderItem={({ item }) => (

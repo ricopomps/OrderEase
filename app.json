@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "OrderEase",
-    "slug": "OrderEase",
+    "slug": "orderease",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -22,7 +22,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#0F172A"
-      }
+      },
+      "package": "com.ricopomps.orderease"
     },
     "web": {
       "bundler": "metro",
@@ -35,6 +36,15 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "f493bf65-82a6-436e-8251-a9bab221588d"
+      }
+    },
+    "owner": "ricopomps"
   }
 }
