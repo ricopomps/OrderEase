@@ -1,0 +1,126 @@
+ - npx create-expo -app --template
+ 	- Navigation (Typescript)
+ 	
+ - Delete app, components, constants (pasta fonts dentro de assests, se quiser trocar a fonte)
+ 
+ - Subistituir imagens
+ 
+ - app.json
+ 	- ajustar backgroundColor do splash e do adaptive Icon (pode trocar userInrefaceStyle para 'dark")
+ 	
+ - Criar pasta src
+ 	- dentro da src criar uma pasta app
+ 		-dentro de app, criar index.tsx
+ 	- pode criar pasta de assets e utils dentro do src, para uso interno do app
+ 	
+ - Instalar native wind:
+ 	- npm i nativewind
+ 	- npm i tailwindcss@3.3.2 --save-dev
+ 	- Configurar arquivo tailwind.config.js
+	 	- npx tailwindcss init
+	 	- trocar content:[] por content: content: ["./src/app/**/*.{ts,tsx}", "./src/components/**/*.{ts,tsx}"],
+	- no babel.config.js adicionar a propriedade -> plugins: ["nativewind/babel"],
+	- dento do src, criar uma pasta types
+		-criar um arquivo chamado nativewind.d.ts
+		- adicione /// <reference types="nativewind/types" /> no arquivo nativewind.d.ts
+ - Criar arquivo _layout.tsx na pasta app
+ 	- adicionar o seguinte código no arquivo: 
+		import { Slot } from "expo-router";
+		import { SafeAreaView } from "react-native";
+
+		export default function Layout() {
+		  return (
+		    <SafeAreaView className="flex-1 pt-8">
+		      <Slot />
+		    </SafeAreaView>
+		  );
+		}
+ - Usar o import "@/..."
+ 	- no tsconfig.json, colocar "paths": {
+					      "@/*": ["./src/*"]
+					     }		
+		
+ - Instalando fonts
+ 	- npx expo install expo-font @expo-google-fonts/inter
+	- no tailwind.config.js colocar o código:
+		theme: {
+		    extend: {
+		      fontFamily: {
+			heading: "Inter_600SemiBold",
+			subtitle: "Inter_500Medium",
+			body: "Inter_400Regular",
+			bold: "Inter_700Bold",
+		      },
+		    },
+		  },
+	- trocar o _layout.tsx para 
+		import { Slot } from "expo-router";
+		import { SafeAreaView } from "react-native";
+
+		import Loading from "@/components/loading";
+		import {
+		  Inter_400Regular,
+		  Inter_500Medium,
+		  Inter_600SemiBold,
+		  Inter_700Bold,
+		  useFonts,
+		} from "@expo-google-fonts/inter";
+
+		export default function Layout() {
+		  const [fontsLoaded] = useFonts({
+		    Inter_400Regular,
+		    Inter_500Medium,
+		    Inter_600SemiBold,
+		    Inter_700Bold,
+		  });
+
+		  if (!fontsLoaded) {
+		    return <Loading />;
+		  }
+
+		  return (
+		    <SafeAreaView className="flex-1 bg-slate-900 ">
+		      <Slot />
+		    </SafeAreaView>
+		  );
+		}
+		
+ - Usar função cs para lidar com classe tailwind
+ 	- npm i clsx tailwind-merge
+ 	- criar pasta utils no src
+ 		- criar pasta functions
+ 			- criar arquivo cs.ts
+ 				- colocar código:
+					import { clsx, type ClassValue } from "clsx";
+					import { twMerge } from "tailwind-merge";
+
+					export function cn(...inputs: ClassValue[]) {
+					  return twMerge(clsx(inputs));
+					}
+
+ 	
+ - Persisitr estado global
+ 	-npm install zustand
+ 	-criar pasta stores dentro de src
+ 		-crie um arquivo {name}-store.ts (troque o {name} pelo nome relevante)
+ 		-monte seu arquivo de store
+ 	- criar uma pasta chamada helpers dentro da pasta de stores
+ 		- crie uma arquivo .ts para implementar a lógica usada no store
+ 	- Para persistir os dados:
+ 		- npx expo install @react-native-async-storage/async-storage
+ 		- no store, adicionar o código
+ 			import { createJSONStorage, persist } from "zustand/middleware";
+			import AsyncStorage from "@react-native-async-storage/async-storage"
+		- usar o persist internamente e passando como config:
+			{
+		          name: "{projectName}:{storeName}",
+		          storage: createJSONStorage(() => AsyncStorage),
+		        }
+			
+			
+ - Baixar APK
+ 	- ir no expo dashboard e fazer o link
+ 	- eas init --id {id}
+ 	- eas build -p android --profile preview
+-obs:
+-npx expo start --clear
